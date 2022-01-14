@@ -1,0 +1,15 @@
+SELECT
+ c.customerNumber AS customer_number
+,c.customerName AS customer_name
+,c.phone AS phone
+,CONCAT(COALESCE(c.addressLine1,''), CASE WHEN (ISNULL(c.addressLine2)) THEN '' ELSE ' ' END, COALESCE(c.addressLine2,'')) AS address
+,c.city AS city
+,c.state AS state
+,c.postalCode AS postal_code
+,c.country AS country
+,c.salesRepEmployeeNumber AS sales_rep_employee_number
+,CONCAT(COALESCE(e.firstName,''), CASE WHEN (ISNULL(e.lastName)) THEN '' ELSE ' ' END, COALESCE(e.lastName,'')) AS sales_rep_employee_name
+,c.creditLimit AS credit_limit
+FROM customers c
+LEFT JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+WHERE c.updated > ?

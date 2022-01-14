@@ -1,0 +1,15 @@
+SELECT
+ e.employeeNumber AS employee_number
+,CONCAT(COALESCE(e.firstName, ''), CASE WHEN (ISNULL(e.lastName)) THEN '' ELSE ' ' END, COALESCE(e.lastName,'')) AS employee_name
+,e.extension AS extension
+,e.email AS email
+,jobTitle AS job_title
+,o.officeCode AS office_code
+,CONCAT(COALESCE(o.addressLine1,''), CASE WHEN (ISNULL(o.addressLine2)) THEN '' ELSE ' ' END, COALESCE(o.addressLine2,'')) AS office_address
+,o.city AS office_city
+,o.country AS office_country
+,o.postalCode AS office_postal_code
+,o.territory AS office_territory
+FROM employees e 
+LEFT JOIN offices o ON o.officeCode = e.officeCode
+WHERE e.updated > ?
