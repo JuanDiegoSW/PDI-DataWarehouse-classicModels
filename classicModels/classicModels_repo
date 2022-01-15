@@ -4291,7 +4291,7 @@ WHERE updated > ?</sql>
     <created_user>-</created_user>
     <created_date>2022/01/14 22:20:12.000</created_date>
     <modified_user>Ryuinferno</modified_user>
-    <modified_date>2022/01/15 10:13:18.000</modified_date>
+    <modified_date>2022/01/16 00:41:51.000</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -4391,7 +4391,275 @@ WHERE updated > ?</sql>
       <to>get customer sk</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>get customer sk</from>
+      <to>generate id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>generate id</from>
+      <to>Get system info</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Get system info</from>
+      <to>Select values</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Insert / update</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
+  <step>
+    <name>Get system info</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>last_update</name>
+        <type>system date (fixed)</type>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Insert / update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>mysql-datawarehouse</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>classicmodels_dwh</schema>
+      <table>fact_order</table>
+      <key>
+        <name>id</name>
+        <field>id</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>order_line_number</name>
+        <rename>order_line_number</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>order_number</name>
+        <rename>order_number</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>product_sk</name>
+        <rename>product_sk</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>quantity_ordered</name>
+        <rename>quantity_ordered</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>price_each</name>
+        <rename>price_each</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>price_total</name>
+        <rename>price_total</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>order_date_sk</name>
+        <rename>order_date_sk</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>required_date_sk</name>
+        <rename>required_date_sk</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>shipped_date_sk</name>
+        <rename>shipped_date_sk</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>customer_sk</name>
+        <rename>customer_sk</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>employee_sk</name>
+        <rename>employee_sk</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>last_update</name>
+        <rename>last_update</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>id</name>
+      </field>
+      <field>
+        <name>order_line_number</name>
+      </field>
+      <field>
+        <name>order_number</name>
+      </field>
+      <field>
+        <name>product_sk</name>
+      </field>
+      <field>
+        <name>quantity_ordered</name>
+      </field>
+      <field>
+        <name>price_each</name>
+      </field>
+      <field>
+        <name>price_total</name>
+      </field>
+      <field>
+        <name>order_date_sk</name>
+      </field>
+      <field>
+        <name>required_date_sk</name>
+      </field>
+      <field>
+        <name>shipped_date_sk</name>
+      </field>
+      <field>
+        <name>customer_sk</name>
+      </field>
+      <field>
+        <name>employee_sk</name>
+      </field>
+      <field>
+        <name>last_update</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>generate id</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>//Script here
+var id;
+id = order_number + product_code;
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>id</name>
+        <rename>id</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>48</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>generate keys date</name>
     <type>SelectValues</type>
@@ -4466,8 +4734,8 @@ WHERE updated > ?</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>128</yloc>
+      <xloc>336</xloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4515,7 +4783,7 @@ WHERE updated > ?</sql>
     </remotesteps>
     <GUI>
       <xloc>48</xloc>
-      <yloc>224</yloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4822,8 +5090,8 @@ ORDER BY od.orderNumber,
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>16</yloc>
+      <xloc>464</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4871,7 +5139,7 @@ ORDER BY od.orderNumber,
     </remotesteps>
     <GUI>
       <xloc>48</xloc>
-      <yloc>128</yloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -4949,7 +5217,7 @@ ORDER BY od.orderNumber,
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
+      <xloc>464</xloc>
       <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
@@ -4998,7 +5266,7 @@ ORDER BY od.orderNumber,
     </remotesteps>
     <GUI>
       <xloc>192</xloc>
-      <yloc>128</yloc>
+      <yloc>16</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -5061,8 +5329,8 @@ FROM classicmodels_dwh.fact_order
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>16</yloc>
+      <xloc>256</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
